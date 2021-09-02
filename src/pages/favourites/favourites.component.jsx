@@ -44,7 +44,7 @@ function Favourites() {
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
     return (
-        <div className="container mt-3">
+        <div className="container mt-4">
             <div className="fav-top">
                 <i onClick={()=>history.push("/home")} className="fas fa-arrow-alt-circle-left text-success back-arrow"></i>
                 <h3>Favourites</h3>
