@@ -1,0 +1,26 @@
+.pagination-tab {
+    position: absolute;
+    width: 50%;
+    overflow-x: auto;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.page-link{
+    color : #2a8754 !important;
+}
+
+.active-page {
+    background: #2a8754;
+    color: white !important;
+    cursor: pointer;
+}
+
+.active-page:hover {
+    background: #409265;
+    color: white !important;
+    cursor: pointer;
+}
+.pointer {
+    cursor: pointer;
+}

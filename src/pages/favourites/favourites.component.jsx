@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import { useHistory } from 'react-router';
 
@@ -9,6 +9,7 @@ import { FavouritesDispatch, FavouritesState } from '../../context/favourites/fa
 import { UserAuthState } from '../../context/user/userContext';
 
 import './favourites.styles.scss';
+import Pagination from '../../components/pagination/pagination.component';
 
 function Favourites() {
 
@@ -17,8 +18,8 @@ function Favourites() {
     const favState = FavouritesState();
     const dispatch = FavouritesDispatch();
     const userState = UserAuthState();
-
-    // console.log(state);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [countriesPerPage] = useState(6);
 
     const itemClick = (country) => {
         history.push({
@@ -31,32 +32,41 @@ function Favourites() {
         dispatch({ type: "ADD", payload: country });
     }
 
-
-
     const removeFavClick = (country) => {
         dispatch({ type: "REMOVE", payload: country });
 
     }
 
+    const indexOfLastCountry = currentPage * countriesPerPage;
+    const indexOfFirstCountry = indexOfLastCountry - countriesPerPage;
+    const currentCountries = favState.slice(indexOfFirstCountry, indexOfLastCountry);
+
+    const paginate = pageNumber => setCurrentPage(pageNumber);
+
     return (
-        <div className="container mt-5">
+        <div className="container mt-3">
             <div className="fav-top">
                 <i onClick={()=>history.push("/home")} className="fas fa-arrow-alt-circle-left text-success back-arrow"></i>
                 <h3>Favourites</h3>
                 <span></span>
             </div>
-            <div className="row mt-5">
+            <div className="row mt-3">
                 {
                     favState.length > 0 ?
 
-                        favState.map(country => (
+                    currentCountries.map(country => (
                             <Country key={country.name} country={country} userState={userState} favState={favState}
                                 addFavClick={addFavClick} removeFavClick={removeFavClick}
                                 itemClick={itemClick} />
+                            
                         ))
+                        
                         : <div className="text-center mt-5">No favs added</div>
                 }
+                
             </div>
+            <Pagination currentPage={currentPage} countriesPerPage={countriesPerPage}
+                            totalCountries={favState.length} paginate={paginate}/>
         </div>
     )
 }
